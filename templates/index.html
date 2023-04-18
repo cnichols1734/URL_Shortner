@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const response = await fetch('{{ url_for("index") }}', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.text();
+            document.querySelector('.container').innerHTML = data;
+            const shortUrl = document.querySelector('.short-url a');
+            if (shortUrl) {
+                copyToClipboard(shortUrl.href);
+                showToast('Short URL copied to clipboard!');
+            }
+        }
+
+        function copyToClipboard(shortUrl) {
+            const el = document.createElement('textarea');
+            el.value = shortUrl;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 500);
+            }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <form method="POST" action="{{ url_for('index') }}" onsubmit="submitForm(event)">
+            {{ form.csrf_token }}
+            <div class="input-container">
+                <input type="url" name="url" placeholder="Enter a long URL" required value="{{ form.url.data or '' }}">
+                <button type="submit">Shorten</button>
+            </div>
+            {% for error in form.url.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </form>
+        {% if short_url %}
+            <p class="short-url">Shortened URL: <a href="{{ short_url }}" target="_blank">{{ short_url }}</a></p>
+        {% endif %}
+    </div>
+</body>
+</html>

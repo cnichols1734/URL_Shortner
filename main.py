@@ -39,7 +39,10 @@ def index():
             db.session.add(new_url)
             db.session.commit()
             short_url = request.url_root + short_code
-            return render_template('index.html', short_url=short_url, form=form)
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return render_template('short_url_partial.html', short_url=short_url)
+            else:
+                return render_template('index.html', short_url=short_url, form=form)
     return render_template('index.html', form=form)
 
 

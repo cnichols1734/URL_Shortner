@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,16 +55,27 @@
         }
     </script>
 </head>
-
 <body>
     <div class="container">
         <h1>URL Shortener</h1>
         <form method="POST" action="{{ url_for('index') }}" onsubmit="submitForm(event)"> {{ form.csrf_token }}
-            <div class="input-container"> <input type="url" name="url" placeholder="Enter a long URL" required value="{{ form.url.data or '' }}"> <button type="submit">Shorten</button> </div> {% for error in form.url.errors %} <p>{{ error }}</p> {% endfor %}
+            <div class="input-container">
+                <input type="url" name="url" placeholder="Enter a long URL" required value="{{ form.url.data or '' }}">
+                <button type="submit">Shorten</button>
+            </div>
+            {% for error in form.url.errors %} <p>{{ error }}</p> {% endfor %}
         </form>
         <p class="short-url"></p>
     </div>
+    <div class="instruction-container">
+        <h2>Instructions</h2>
+        <p>
+            1. Add your long-ass URL<br>
+            2. Press the "Shorten" button<br>
+            3. The new lil URL is now copied to your clipboard
+        </p>
+        <p class="disclaimer">Disclaimer: This site is free to all except Matt Wright, screw that guy.</p>
+    </div>
     <footer> &copy; Christopher Nichols 2023 </footer>
 </body>
-
 </html>

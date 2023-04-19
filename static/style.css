@@ -9,15 +9,20 @@ html {
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
+  display: flex;
+  align-items: flex-start; /* Changed from center to flex-start */
+  justify-content: center;
+  padding-top: 2rem; /* Added a top padding */
 }
 
+
 .container {
+  width: 80%;
   max-width: 800px;
-  margin: 2rem auto;
   padding: 2rem;
   text-align: center;
   background-color: #fff;
@@ -28,12 +33,14 @@ body {
 h1 {
   font-size: 2.5rem;
   color: #333;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+  margin-top: .5rem;
 }
 
 form {
   display: inline-flex;
   flex-direction: column;
+  align-items: center;
 }
 
 input[type="url"] {
@@ -43,23 +50,29 @@ input[type="url"] {
   border-radius: 4px;
   outline: none;
   margin-bottom: 1rem;
-  width: 600px;
+  width: 500px; /* Changed from 600px */
+  transition: border-color 0.3s ease;
+}
+
+input[type="url"]:focus {
+  border-color: #29abe2;
 }
 
 button[type="submit"] {
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  background-color: #333;
+  background-color: #29abe2;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
 }
 
 button[type="submit"]:hover {
-  background-color: #555;
+  background-color: #1a8fd4;
 }
 
 .short-url {
@@ -90,4 +103,5 @@ button[type="submit"]:hover {
 
 .input-container {
   display: inline-block;
+  width: 100%;
 }

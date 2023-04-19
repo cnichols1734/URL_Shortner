@@ -13,10 +13,8 @@ body {
     height: 100%;
     display: flex;
     align-items: flex-start;
-    /* Changed from center to flex-start */
     justify-content: center;
     padding-top: 2rem;
-    /* Added a top padding */
 }
 
 .container {
@@ -50,7 +48,6 @@ input[type="url"] {
     outline: none;
     margin-bottom: 1rem;
     width: 500px;
-    /* Changed from 600px */
     transition: border-color 0.3s ease;
 }
 

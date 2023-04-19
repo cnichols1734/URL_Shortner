@@ -1,74 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Shortener</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <script>
-    async function submitForm(event) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const response = await fetch('{{ url_for("index") }}', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: formData,
-        });
-        const data = await response.text();
-        const parser = new DOMParser();
-        const parsedData = parser.parseFromString(data, 'text/html');
-        const shortUrl = parsedData.querySelector('.short-url a');
-        if (shortUrl) {
-            showShortUrl(shortUrl.href);
+        async function submitForm(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const response = await fetch('{{ url_for("index") }}', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData,
+            });
+            const data = await response.text();
+            const parser = new DOMParser();
+            const parsedData = parser.parseFromString(data, 'text/html');
+            const shortUrl = parsedData.querySelector('.short-url a');
+            if (shortUrl) {
+                showShortUrl(shortUrl.href);
+            }
         }
-    }
 
-    function showShortUrl(shortUrl) {
-        const shortUrlElement = document.querySelector('.short-url');
-        shortUrlElement.innerHTML = `Shortened URL: <a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
-        copyToClipboard(shortUrl);
-        showToast('Short URL copied to clipboard!');
-    }
+        function showShortUrl(shortUrl) {
+            const shortUrlElement = document.querySelector('.short-url');
+            shortUrlElement.innerHTML = `Shortened URL: <a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
+            copyToClipboard(shortUrl);
+            showToast('Short URL copied to clipboard!');
+        }
 
-    function copyToClipboard(shortUrl) {
-        const el = document.createElement('textarea');
-        el.value = shortUrl;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-    }
+        function copyToClipboard(shortUrl) {
+            const el = document.createElement('textarea');
+            el.value = shortUrl;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        }
 
-    function showToast(message) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        setTimeout(() => {
-            toast.classList.add('fade-out');
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
             setTimeout(() => {
-                document.body.removeChild(toast);
-            }, 500);
-        }, 3000);
-    }
-</script>
+                toast.classList.add('fade-out');
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 500);
+            }, 3000);
+        }
+    </script>
 </head>
+
 <body>
     <div class="container">
         <h1>URL Shortener</h1>
-        <form method="POST" action="{{ url_for('index') }}" onsubmit="submitForm(event)">
-            {{ form.csrf_token }}
-            <div class="input-container">
-                <input type="url" name="url" placeholder="Enter a long URL" required value="{{ form.url.data or '' }}">
-                <button type="submit">Shorten</button>
-            </div>
-            {% for error in form.url.errors %}
-                <p>{{ error }}</p>
-            {% endfor %}
+        <form method="POST" action="{{ url_for('index') }}" onsubmit="submitForm(event)"> {{ form.csrf_token }}
+            <div class="input-container"> <input type="url" name="url" placeholder="Enter a long URL" required value="{{ form.url.data or '' }}"> <button type="submit">Shorten</button> </div> {% for error in form.url.errors %} <p>{{ error }}</p> {% endfor %}
         </form>
         <p class="short-url"></p>
     </div>
+    <footer> &copy; Christopher Nichols 2023 </footer>
 </body>
+
 </html>

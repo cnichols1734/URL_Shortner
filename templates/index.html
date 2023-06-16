@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener</title>
+    <title>Lil URL</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <script>
         async function submitForm(event) {
@@ -57,11 +57,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>URL Shortener</h1>
+        <h1>Lil URL</h1>
         <form method="POST" action="{{ url_for('index') }}" onsubmit="submitForm(event)"> {{ form.csrf_token }}
             <div class="input-container">
                 <input type="url" name="url" placeholder="Enter a long URL" required value="{{ form.url.data or '' }}">
-                <button type="submit">Shorten</button>
+                <button type="submit">Shorten it</button>
             </div>
             {% for error in form.url.errors %} <p>{{ error }}</p> {% endfor %}
         </form>
